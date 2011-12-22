@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import com.test.salesforce.Position;
 
-
 public class CoolDuct {
 
 	/**
@@ -47,8 +46,8 @@ public class CoolDuct {
 				 }
 			 }
 			int k=0;
-			if(isRoute(grid,zeroCount,start,end))
-				k++;
+			isRoute(grid,zeroCount,start,end,k);
+				
 			System.out.println(k);
 		 }
 	     catch (Exception e) {
@@ -56,14 +55,14 @@ public class CoolDuct {
 	     }
 	       
 	}
-	static boolean isRoute(int[][] grid, int zeroCount, Position current, Position end)
+	static boolean isRoute(int[][] grid, int zeroCount, Position current, Position end,int k)
 	{
-		if(current.equals(end)){
-			if(zeroCount==0)
-				return true;
-			else 
-				return false;
-		}
+//		if(current.equals(end)){
+//			if(zeroCount==0)
+//				return true;
+//			else 
+//				return false;
+//		}
 		List<Position> directions = new ArrayList<Position>();
 		if(isValid(grid,current.getI()+1,current.getJ()))
 		  directions.add(new Position(current.getI()+1, current.getJ()));
@@ -77,23 +76,29 @@ public class CoolDuct {
 	
 		Position shortest=shortest(end, directions);
 		
-		if(shortest!=null){
-			grid[shortest.getI()][shortest.getJ()]=5;
-			boolean temp = isRoute(grid, zeroCount-1, new Position(shortest.getI(), shortest.getJ()),end);
-			if (temp==false){
-				grid[shortest.getI()][shortest.getJ()]=0;
-				return false;
-			}
-			else
-				return true;
+		if(zeroCount!=0)
+		{
+			if(grid[shortest.getI()][shortest.getJ()]!=3)
+				grid[shortest.getI()][shortest.getJ()]=5;
+			isRoute(grid, zeroCount-1, new Position(shortest.getI(), shortest.getJ()),end,k);
+			grid[shortest.getI()][shortest.getJ()]=0;
+			zeroCount++;
 		}
+		
+		if (shortest.getI()-end.getI()==0 && shortest.getJ()-end.getJ()==0){	
+			k++;
+			return true;
+		}
+		
+		return false;
+		
 		//grid[shortest.getI()][shortest.getJ()+1]=0;
 			
-		return false;
+		//return false;
 			
 	}
 	private static Position shortest(Position end, List<Position> directions) {
-		double max=0.0;
+		double max=-1.0;
 	    Position shortest = null;
 		double[] distances= new double[directions.size()];
 		//{distance(current, down),distance(current, right), distance(current,up),distance(current, left)};
@@ -121,7 +126,7 @@ public class CoolDuct {
 	{
 		if(i<grid.length &&j<grid[0].length && i>=0 && j >=0)
 		{
-			if(grid[i][j]==0)
+			if(grid[i][j]==0 ||grid[i][j]==3)
 				return true;
 		}
 		return false;

@@ -1,9 +1,8 @@
 package com.test.salesforce;
 
-import static org.junit.Assert.*;
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
+
 
 public class RouteTest {
 
@@ -15,6 +14,12 @@ public class RouteTest {
 		Assert.assertEquals(p.getI(), 1);
 		Assert.assertEquals(p.getJ(), 1);
 	}
+//	@Test
+//	public void testEquals() throws Exception {
+//		Position p = new Position(1, 1);
+//		Position p1= new Position(1, 1);
+//		Assert.assertEquals(p,p1);
+//	}
 	
 	@Test
 	public void testNullMove() throws Exception{
