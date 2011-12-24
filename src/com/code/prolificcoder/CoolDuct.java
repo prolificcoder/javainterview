@@ -11,6 +11,7 @@ public class CoolDuct {
 	/**
 	 * @param args
 	 */
+	static int count=0;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int[][] grid;
@@ -45,24 +46,19 @@ public class CoolDuct {
 						zeroCount++;					
 				 }
 			 }
-			int k=0;
-			isRoute(grid,zeroCount,start,end,k);
+			
+			isRoute(grid,zeroCount,start,end);
 				
-			System.out.println(k);
+			System.out.println(count);
 		 }
 	     catch (Exception e) {
 	         e.printStackTrace();
 	     }
 	       
 	}
-	static boolean isRoute(int[][] grid, int zeroCount, Position current, Position end,int k)
+	static boolean isRoute(int[][] grid, int zeroCount, Position current, Position end)
 	{
-//		if(current.equals(end)){
-//			if(zeroCount==0)
-//				return true;
-//			else 
-//				return false;
-//		}
+
 		List<Position> directions = new ArrayList<Position>();
 		if(isValid(grid,current.getI()+1,current.getJ()))
 		  directions.add(new Position(current.getI()+1, current.getJ()));
@@ -80,22 +76,17 @@ public class CoolDuct {
 		{
 			if(grid[shortest.getI()][shortest.getJ()]!=3)
 				grid[shortest.getI()][shortest.getJ()]=5;
-			isRoute(grid, zeroCount-1, new Position(shortest.getI(), shortest.getJ()),end,k);
+			isRoute(grid, zeroCount-1, new Position(shortest.getI(), shortest.getJ()),end);
 			grid[shortest.getI()][shortest.getJ()]=0;
 			zeroCount++;
 		}
 		
 		if (shortest.getI()-end.getI()==0 && shortest.getJ()-end.getJ()==0){	
-			k++;
+			count++;
 			return true;
 		}
 		
-		return false;
-		
-		//grid[shortest.getI()][shortest.getJ()+1]=0;
-			
-		//return false;
-			
+		return false;		
 	}
 	private static Position shortest(Position end, List<Position> directions) {
 		double max=-1.0;
